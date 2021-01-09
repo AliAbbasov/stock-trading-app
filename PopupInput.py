@@ -19,7 +19,7 @@ class PopupInput(Frame):
         self.defFont = ("italic", 12)
         self.bOrS = "buy" if buy else "sell"
         self.top = Toplevel(master)
-        self.top.iconbitmap(r'mega_trade.ico')
+        self.top.iconbitmap(r'Pictures\mega_trade.ico')
         self.howMuch = ttk.Label(self.top, text="How much {} stock would you like to {}?".format(stock, self.bOrS),
                                  font=self.defFont)
         self.howMuch.grid(padx=20, pady=(5, 0), columnspan=2)
@@ -57,17 +57,17 @@ class PopupInput(Frame):
                     self.destroy()
 
         elif self.bOrS == "sell":
-            if int(self.userInp.get()) > self.master.inv.userInv[self.stockI]:
-                messagebox.showerror(title="Error", message="You do not have that much of {} stock".format(self.stock))
+            if int(self.userInp.get()) > 150 :
+                messagebox.showerror(title="Error", message="You do not have that much of {} stock! ".format(self.stock))
 
             else:
                 self.amount = int(self.userInp.get())
                 if messagebox.askokcancel(title="Are you sure?",
                                           message="Do you want to sell {} {} stock for {}$ ?".format(self.amount,
-                                                                                                           self.stock,
-                                                                                                           round(
-                                                                                                               self.amount * self.stockPrice),
-                                                                                                           2)):
+                                                                                                     self.stock,
+                                                                                                     round(
+                                                                                                         self.amount * self.stockPrice),
+                                                                                                     2)):
                     self.destroy()
 
     def is_okay(self, what):
