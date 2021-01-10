@@ -11,7 +11,17 @@ class BuyMenu(Frame):
         self.stockList = Listbox(self, borderwidth=0, highlightthickness=0)
         self.stockList = ["Alphabet", "Apple", "Amazon", "Johnson & Johnson", "BP", "Visa", "Facebook", "JPMorgan Chase", "Procter & Gamble", "NVIDIA",
                           "Microsoft", "Tesla"]
+        self.master.after(0, self.fakewhile)
+        self.cycles = 0
         self.create_widgets()
+
+    def fakewhile(self):
+        if self.cycles % 5 == 0:
+            self.update_buy_prices()
+        if self.cycles == 10:
+            self.cycles = 0
+        self.cycles = self.cycles + 1
+        self.master.after(1000, self.fakewhile)
 
     def create_widgets(self):
 
@@ -67,7 +77,7 @@ class BuyMenu(Frame):
             return
 
         w = PopupInput(self.master, money=self.master.money, stock=self.stockList[stockI],
-                       stockPrice=self.buy_prices[stockI], buy=True, )
+                       stockPrice=self.buy_prices[stockI], buy=True)
 
         self.master.wait_window(w.top)
         try:

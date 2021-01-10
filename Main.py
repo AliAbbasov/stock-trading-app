@@ -15,9 +15,9 @@ class Main(Frame):
         self.hour = time.strftime("%H")
         self.minute = time.strftime("%M")
         self.day = time.strftime("%A")
-
         self.create_widgets()
         self.update_time()
+
 
     def create_widgets(self):
 
@@ -30,9 +30,6 @@ class Main(Frame):
 
         self.mLabel = ttk.Label(self.tFrame, text="You have : {} $".format(round(self.money)), font=self.normFont)
         self.mLabel.grid(sticky=W + E, padx=230, pady=10)
-
-        self.Refresh = ttk.Button(self.tFrame, text="Refresh", command=self.update_time)
-        self.Refresh.grid(padx=230, pady=5)
 
         self.menu = BuyMenu(self)
         self.menu.grid(row=2, column=0, pady=15, sticky=E + W + N + S, )
@@ -67,8 +64,9 @@ class Main(Frame):
         self.inv.amounts.delete(stockI)
         self.inv.amounts.insert(stockI, self.inv.userInv[stockI])
 
+        cost1 = self.menu.buy_prices[stockI] * (self.inv.userInv[stockI])
         self.inv.stockPrice.delete(stockI)
-        self.inv.stockPrice.insert(stockI, '{} $'.format(round(cost, 2)))
+        self.inv.stockPrice.insert(stockI, '{}'.format(round(cost1, 2)))
 
     def sell(self, stockI, amount):
 
@@ -79,22 +77,19 @@ class Main(Frame):
 
         cost1 = self.inv.sell_prices[stockI] * (self.inv.userInv[stockI] - amount)
         self.inv.stockPrice.delete(stockI)
-        self.inv.stockPrice.insert(stockI, '{} $'.format(round(cost1, 2)))
+        self.inv.stockPrice.insert(stockI, '{}'.format(round(cost1, 2)))
 
-        # file = open("Users\\" + "Ali.txt", "a")
-        # file.write(cost + "\n")
-        # file.close()
+
 
     def deactivate(self):
-
         self.menu.buy['state'] = DISABLED
         self.inv.sell['state'] = DISABLED
 
 
 root = Tk()
-bgimage = PhotoImage(file=r"Pictures\Mega_Trade_Pic.png")
+bgimage = PhotoImage(file=r"Pictures/Mega_Trade_Pic.png")
 Label(root, image=bgimage).place(relwidth=1, relheight=1)
-root.iconbitmap(r'Pictures\mega_trade.ico')
+root.iconbitmap(r'Pictures/mega_trade.ico')
 root.title("Mega Trade app")
 root.resizable(width=False, height=False)
 app = Main(root)

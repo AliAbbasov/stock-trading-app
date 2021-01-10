@@ -37,7 +37,7 @@ class PopupInput(Frame):
         self.ok.grid(ipadx=20)
 
         self.cancel = ttk.Button(self.top, text="Cancel", command=self.destroy)
-        self.cancel.grid(row=2, column=1, )
+        self.cancel.grid(row=2, column=1)
 
     def confirm_order(self):
         if self.bOrS == "buy":

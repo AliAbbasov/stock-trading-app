@@ -12,11 +12,18 @@ class Inventory(Frame):
                           "Microsoft", "Tesla"]
         self.userInv = [0 for i in range(12)]
         self.amount = [0 for i in range(12)]
-
-
-
         self.menuFont = ("italic", 10)
+        self.master.after(0, self.fakewhile)
+        self.cycles = 0
         self.create_widgets()
+
+    def fakewhile(self):
+        if self.cycles % 5 == 0:
+            self.update_sell_prices()
+        if self.cycles == 10:
+            self.cycles = 0
+        self.cycles = self.cycles + 1
+        self.master.after(1000, self.fakewhile)
 
     def create_widgets(self):
         Label(self, text="Your Positions", bg='white', font=("italic", 12, "underline")).grid()
@@ -36,6 +43,7 @@ class Inventory(Frame):
         self.amounts = Listbox(self, height=0, font=("italic", 10), width=10, activestyle='none',
                                selectbackground="white", selectforeground="black")
         self.amounts.grid(row=1, column=2, pady=(3, 10))
+
         for i in range(12):
             self.amounts.insert(END, 0)
 
@@ -53,7 +61,7 @@ class Inventory(Frame):
         self.ifyousell.grid(row=1, column=4, pady=(3, 10))
         for i in range(12):
             self.ifyousell.delete(i, END)
-            self.ifyousell.insert(END,0)
+            self.ifyousell.insert(END, 0)
 
         Label(self, text="Current\nProfit", bg='white', font=("italic", 12, "underline")).grid(row=0, column=5)
         self.difference = Listbox(self, height=0, font=("italic", 10), width=10, activestyle='none',
@@ -69,12 +77,11 @@ class Inventory(Frame):
         self.sell_prices = self.generate_sell_prices()
         for i in range(len(self.sell_prices)):
             self.sell_priceList.delete(i, END)
-            self.sell_priceList.insert(i, '{} $'.format(self.sell_prices[i]))
+            self.sell_priceList.insert(i, '{}'.format(self.sell_prices[i]))
             self.ifyousell.delete(i, END)
-            self.ifyousell.insert(i,'{} $'.format(round(self.sell_prices[i],2) * self.userInv[i]))
-
+            self.ifyousell.insert(i,'{}'.format(round(self.sell_prices[i], 2) * self.userInv[i]))
             self.difference.delete(i, END)
-            self.difference.insert(i,5)
+            self.difference.insert(i, round(float(self.ifyousell.get(0, END)[i]) - float(self.stockPrice.get(0, END)[i]), 4))
 
     def generate_sell_prices(self):
 
